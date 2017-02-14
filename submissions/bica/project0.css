@@ -11,7 +11,7 @@ body {
 }
 
 .point {
-    fill: #f00; 
+    fill: #7f3996; 
     stroke: #000;
 }
 
@@ -21,7 +21,8 @@ body {
 }
 
 .rect {
-    fill: #f00;
+    fill: #7f3996;
+    width: 30px;
 }
 
 .label {
@@ -31,14 +32,63 @@ body {
     cursor: pointer;
 }
 
-.chart {
+.smallchart {
     display: inline-block;
     float: left;
     margin: 5px 5px 5px 5px;
 }
 
 .line {
-    stroke: #000;
+    stroke: #398596;
     fill: none;
     stroke-width: 2;
 }
+
+
+/* From W3Schools */
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #398596;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #29616d;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    /*display: inline-block;*/
+    margin:20px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}

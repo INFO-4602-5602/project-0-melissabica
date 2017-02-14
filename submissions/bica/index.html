@@ -12,17 +12,28 @@
 	<div id="partOne">
         <h1>Part One: </h1>
 	</div>
+
+    <div class="dropdown">
+      <button onclick="toggleDropdown()" class="dropbtn" id="dropdown">Choose Anscombe</button>
+      <div id="myDropdown" class="dropdown-content">
+        <a onclick="changeScatterData('anscombe_I.csv'); changeBarData('anscombe_I.csv')" >Anscombe I</a>
+        <a onclick="changeScatterData('anscombe_II.csv'); changeBarData('anscombe_II.csv')">Anscombe II</a>
+        <a onclick="changeScatterData('anscombe_III.csv'); changeBarData('anscombe_III.csv')">Anscombe III</a>
+        <a onclick="changeScatterData('anscombe_IV.csv'); changeBarData('anscombe_IV.csv')">Anscombe IV</a>
+
+      </div>
+    </div>    
     
-    <div id="partTwo">
-        <h1>Part Two (Bar chart): </h1>
+    <div id="partTwo" style="float:left;">
+        <h1 style="display:inline;">Part Two (Bar Chart): </h1>
         <div id="barchart">
         </div>
 	</div>
     
     <div id="partThree">
-        <h1>Part Three &amp; Four (Scatterplot): </h1>
+        <h1 style="display:inline; vertical-align: text-bottom;">Part Three &amp; Four (Scatterplot): </h1>
+        <p id="scatterLabel" style="display:inline; vertical-align: text-bottom;"></p>
         <div id="scatterplot">
-            <p id="scatterLabel"></p>
         </div>
 	</div>
     
@@ -52,8 +63,6 @@
             checkDataset(csvData);
         });
 
-
-        
         // Leave this to test your data uploading. All data uploading should be above this line
         function checkDataset(dataset) {
             if (dataset.length == 11)
@@ -72,9 +81,13 @@
         var vals = ['x', 'y']; // List of data attributes
         var xVal = vals[0]; // Value to plot on x-axis
         var yVal = vals[1]; // Value to plot on y-axis
-        var transDur = 100;
+        var transDur = 100; // Transition time in ms
+        var hoverColor = '#ea4d4d'
+        var origColor = '#7f3996'
+        var datasets = ['anscombe_I.csv','anscombe_II.csv','anscombe_III.csv','anscombe_IV.csv']
+        var initDataset = datasets[0]
 
-        d3.csv('anscombe_IV.csv', function(csvData){
+        d3.csv(initDataset, function(csvData){
 
             var data = csvData;
             data.forEach(function(d,idx){
@@ -148,19 +161,53 @@
             // Update our selection
             bar
                 .attr('class', 'rect')                                 // Give it a class
-                .attr('width', 10)    // x-coordinate
                 .attr('height', function(d) { return h-yScale(d.x)-yOffset-margin; })   // y-coordinate
                 .attr('x', function(d){ return xScale(d.idx) })
                 .attr('y', function(d){ return yScale(d.x)})
             bar.append('svg:title') // tooltip
                 .text(function(d) { return "x:"+d.x+" y:"+d.y; });
+
+            bar.on('mouseover', function(d){
+                this.style = "fill:"+hoverColor
+            });
+            bar.on('mouseout', function(d){
+                this.style = "fill:"+origColor
+            });
+
+            changeBarData = function(file){
+                console.log("change bar plot: "+file)
+                d3.csv(file, function(newData){
+                    // Update the data
+                    newData.forEach(function(d,idx){
+                        d.x = +d.x;
+                        d.idx = idx;
+                    }); 
+
+                    // Update the axes
+                    xScale.domain([0, newData.length])
+                    xAxis.scale(xScale);
+                    xAxisG.call(xAxis);
+
+                    yScale.domain([0, d3.max(newData, function(d) { return parseFloat(d.x); })+1])
+                    yAxis.scale(yScale);
+                    yAxisG.call(yAxis);
+
+                    // Update the bars
+                    bar
+                        .data(newData)
+                        .transition()
+                        .duration(100)
+                        .attr('height', function(d) { return h-yScale(d.x)-yOffset-margin; })   // y-coordinate
+                        .attr('x', function(d){ return xScale(d.idx) })
+                        .attr('y', function(d){ return yScale(d.x)})
+                });
+            };
+
         }); 
 
 
-
         // Put your part three & four code here *********************** Scatterplot
-        d3.csv('anscombe_IV.csv', function(csvData){
-
+        d3.csv(initDataset, function(csvData){
             var data = csvData;
         
             // Define scales that convert from the data domain to screen coordinates
@@ -170,19 +217,15 @@
             // Using linear scales maps the data directly to the pixel values using
             // pixel_val = c * data_val, where c is a constant computed by d3.
             var xScale = d3.scale.linear()
-                            .domain([d3.min(data, function(d) {
-                                return parseFloat(d[xVal]);
-                            })-1, d3.max(data, function(d) {
-                                return parseFloat(d[xVal]);
-                            })+1])
+                            .domain([0, d3.max(data, function(d) {
+                                        return parseFloat(d.x);
+                                    })+1])
                             .range([xOffset + margin, w - margin]);
             
             var yScale = d3.scale.linear()
-                            .domain([d3.min(data, function(d) {
-                                return parseFloat(d[yVal]);
-                            })-1, d3.max(data, function(d) {
-                                return parseFloat(d[yVal]);
-                            })+1])
+                            .domain([0, d3.max(data, function(d) {
+                                        return parseFloat(d.y); 
+                                    })+1])
                             .range([h - yOffset - margin, margin]);
             
             // Next, we will create an SVG element to contain our visualization.
@@ -237,31 +280,65 @@
             // Update our selection
             point
                 .attr('class', 'point')                                 // Give it a class
-                .attr('cx', function(d) { return xScale(d[xVal]); })    // x-coordinate
-                .attr('cy', function(d) { return yScale(d[yVal]); })    // y-coordinate
+                .attr('cx', function(d) { return xScale(d.x); })    // x-coordinate
+                .attr('cy', function(d) { return yScale(d.y); })    // y-coordinate
                 .attr('r', 0)
                 .transition()
                 .duration(transDur)
-                .attr('r', 8)                                          // radius
+                .attr('r', 6)                                          // radius
                 .attr('id', function(d) { return 'point'+d.idx})
+
             point.append('svg:title')                                   // tooltip
-                .text(function(d) { return "x:"+d.x+", y:"+d.y; });
+                .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
 
             point.on('click', function(d){
-                document.getElementById("scatterLabel").innerHTML = "x:"+d.x+", y:"+d.y;
+                document.getElementById("scatterLabel").innerHTML = "(x="+d.x+", y="+d.y+")";
             });
             point.on('mouseover', function(d){
-                this.style = "fill:#000"
+                this.style = "fill:"+hoverColor
             });
             point.on('mouseout', function(d){
-                this.style = "fill:#f00"
+                this.style = "fill:"+origColor
             });
-        });    
+
+            changeScatterData = function(file){
+                document.getElementById("dropdown").innerHTML = file;
+                console.log("change scatter data: "+file)
+                d3.csv(file, function(newData){
+                    // Update the axis
+                    xScale.domain([0, d3.max(newData, function(d) {
+                                        return parseFloat(d.x);
+                                    })+1])                  
+                    xAxis.scale(xScale);
+                    xAxisG.call(xAxis);
+                    yScale.domain([0, d3.max(newData, function(d) {
+                                        return parseFloat(d.y); 
+                                    })+1])
+                    yAxis.scale(yScale);
+                    yAxisG.call(yAxis);
+                    console.log(file)
+                    point
+                        .data(newData)
+                        .transition()
+                        .duration(100)
+                        .attr('cx', function(d) { return xScale(d.x); })    // x-coordinate
+                        .attr('cy', function(d) { return yScale(d.y); })    // y-coordinate
+
+                    point.select('title')                                   // tooltip
+                        .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
+
+                    point.on('click', function(d){
+                        document.getElementById("scatterLabel").innerHTML = "(x="+d.x+", y="+d.y+")";
+                    });
+
+                });
+            };
+
+        });
 
 
         
         // Put your part five code here ***********************
-        datasets = ['anscombe_I.csv','anscombe_II.csv','anscombe_III.csv','anscombe_IV.csv']
         datasets.forEach(function(filename,i){
 
             var w = 300; // Width of our visualization
@@ -274,30 +351,24 @@
             var yVal = vals[1]; // Value to plot on y-axis
             var transDur = 100;
 
-            console.log(filename)
+            // console.log(filename)
             d3.csv(filename, function(data_old){
-
-
-
                 data_old.forEach(function(d) {
                     d.x = +d.x;
                     d.y = +d.y;
                     d.yhat = +d.yhat;
                 });
+
                 var data = create_data(data_old);
                 
                 var xScale = d3.scale.linear()
-                                .domain([d3.min(data, function(d) {
-                                    return parseFloat(d[xVal]);
-                                })-1, d3.max(data, function(d) {
+                                .domain([0, d3.max(data, function(d) {
                                     return parseFloat(d[xVal]);
                                 })+1])
                                 .range([xOffset + margin, w - margin]);
 
                 var yScale = d3.scale.linear()
-                                .domain([d3.min(data, function(d) {
-                                    return parseFloat(d[yVal]);
-                                })-1, d3.max(data, function(d) {
+                                .domain([0, d3.max(data, function(d) {
                                     return parseFloat(d[yVal]);
                                 })+1])
                                 .range([h - yOffset - margin, margin]);
@@ -306,7 +377,7 @@
                 var svg = d3.select("#smallScatter"+(i+1)).append('svg:svg')
                                                 .attr("width", w)
                                                 .attr("height", h)
-                                                .attr('class', 'chart')
+                                                .attr('class', 'smallchart')
                 
 
                 // Build axes! (These are kind of annoying, actually...)
@@ -391,19 +462,19 @@
                 });
 
                 point.on('mouseover', function(d){
-                    this.style = "fill:#000"
+                    this.style = "fill:"+hoverColor
                 });
 
                 point.on('mouseout', function(d){
-                    this.style = "fill:#f00"
+                    this.style = "fill:"+origColor
                 });
             });
         })
         
 
-        // https://bl.ocks.org/ctufts/298bfe4b11989960eeeecc9394e9f118
+        // Code from https://bl.ocks.org/ctufts/298bfe4b11989960eeeecc9394e9f118
         function create_data(data) {
-            console.log(data)
+            // console.log(data)
             var n = data.length;
             var x_mean = 0;
             var y_mean = 0;
@@ -423,7 +494,6 @@
             // calculate mean x and y
             x_mean /= n;
             y_mean /= n;
-            console.log("x_mean "+x_mean)
 
             // calculate coefficients
             var xr = 0;
@@ -455,8 +525,28 @@
             return (res);
         }
 
+        // Code from https://www.w3schools.com/howto/howto_js_dropdown.asp
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function toggleDropdown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
 
 
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
         
     </script>
 </body>
