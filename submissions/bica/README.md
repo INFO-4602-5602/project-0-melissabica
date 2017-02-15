@@ -1,6 +1,5 @@
-# Melissa Bica Project0
-## IINFO 5602 Information Visualization
-## February 15, 2017
+# Melissa Bica Project 0: Visualizing Anscombe's Quarted
+## INFO 5602 Information Visualization
 Collaborators: Jennings Anderson
 
 <h1>Project 0: Visualizing Anscombe’s Quartet</h1>
