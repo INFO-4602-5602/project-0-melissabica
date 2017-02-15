@@ -165,7 +165,7 @@
                 .attr('x', function(d){ return xScale(d.idx) })
                 .attr('y', function(d){ return yScale(d.x)})
             bar.append('svg:title') // tooltip
-                .text(function(d) { return "x:"+d.x+" y:"+d.y; });
+                .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
 
             bar.on('mouseover', function(d){
                 this.style = "fill:"+hoverColor
@@ -292,7 +292,7 @@
                 .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
 
             point.on('click', function(d){
-                document.getElementById("scatterLabel").innerHTML = "(x="+d.x+", y="+d.y+")";
+                document.getElementById("scatterLabel").innerHTML = "x="+d.x+", y="+d.y;
             });
             point.on('mouseover', function(d){
                 this.style = "fill:"+hoverColor
@@ -359,7 +359,7 @@
                     d.yhat = +d.yhat;
                 });
 
-                var data = create_data(data_old);
+                var data = create_data(data_old); // adds in data for regression line
                 
                 var xScale = d3.scale.linear()
                                 .domain([0, d3.max(data, function(d) {
@@ -423,7 +423,6 @@
                                 .attr('y', margin)
                                 .text(filename)
 
-
                 var line = d3.svg.line()
                     .x(function(d) {
                         return xScale(d.x);
@@ -431,7 +430,6 @@
                     .y(function(d) {
                         return yScale(d.yhat);
                     });
-
 
                 svg.append("path")
                     .datum(data)
@@ -455,10 +453,10 @@
                     .attr('r', 4)                                          // radius
                     .attr('id', function(d) { return 'point'+d.idx})
                 point.append('svg:title')                                   // tooltip
-                    .text(function(d) { return "x:"+d.x+", y:"+d.y; });
+                    .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
 
                 point.on('click', function(d){
-                    document.getElementById("smallScatterLabel").innerHTML = filename+", x:"+d.x+", y:"+d.y;
+                    document.getElementById("smallScatterLabel").innerHTML = filename+": x="+d.x+", y="+d.y;
                 });
 
                 point.on('mouseover', function(d){
@@ -526,12 +524,10 @@
         }
 
         // Code from https://www.w3schools.com/howto/howto_js_dropdown.asp
-        /* When the user clicks on the button, 
-        toggle between hiding and showing the dropdown content */
+        // When the user clicks on the button, toggle between hiding and showing the dropdown content
         function toggleDropdown() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
-
 
         // Close the dropdown menu if the user clicks outside of it
         window.onclick = function(event) {
