@@ -6,7 +6,7 @@ Collaborators: Jennings Anderson
 * **Tooltips:** All the graphs have tooltips that provide the x and y coordinates for the selected mark (bar or point). I also added a more visually appealing D3 tooltip to the large bar chart and scatterplot.
 * **Styling:** I chose a jewel tone color scheme as shown below (http://www.color-hex.com/color-palette/19155), and added a mouseover color to all the marks (bars and points). (The click interaction, Part 4, is also implemented on all the scatterplots.) 
 
-<img src="color_scheme.png" width="200">
+<center><img src="color_scheme.png" width="200" align="middle"></center>
 
 
 * **Best Fit Lines:** I added a best fit line to each of the small scatterplots in Part 5.
