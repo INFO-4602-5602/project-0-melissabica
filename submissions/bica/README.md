@@ -1,4 +1,4 @@
-# Melissa Bica Project 0: Visualizing Anscombe's Quarted
+# Melissa Bica Project 0: Visualizing Anscombe's Quartet
 ## INFO 5602 Information Visualization
 Collaborators: Jennings Anderson
 
