@@ -11,7 +11,7 @@ body {
 }
 
 .point {
-    fill: #7f3996; 
+    fill: #67074e; 
     stroke: #000;
 }
 
@@ -21,7 +21,7 @@ body {
 }
 
 .rect {
-    fill: #7f3996;
+    fill: #67074e;
     width: 30px;
 }
 
@@ -59,7 +59,7 @@ body {
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
-    background-color: #29616d;
+    background-color: #074e67;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -99,8 +99,8 @@ body {
   line-height: 1;
   font-weight: bold;
   padding: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  color: #000;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
   border-radius: 2px;
 }
 
@@ -111,7 +111,7 @@ body {
   font-size: 10px;
   width: 100%;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.8);
   content: "\25BC";
   position: absolute;
   text-align: center;

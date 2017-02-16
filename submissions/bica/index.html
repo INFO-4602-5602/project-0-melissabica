@@ -85,8 +85,8 @@
         var xVal = vals[0]; // Value to plot on x-axis
         var yVal = vals[1]; // Value to plot on y-axis
         var transDur = 100; // Transition time in ms
-        var hoverColor = '#ef2323'
-        var origColor = '#7f3996'
+        var hoverColor = '#dd9933'
+        var origColor = '#67074e'
         var datasets = ['anscombe_I.csv','anscombe_II.csv','anscombe_III.csv','anscombe_IV.csv']
         var initDataset = datasets[0]
 
@@ -165,7 +165,7 @@
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) {
-                    return "<strong>x value:</strong><span style='color:"+hoverColor+"'>"+d.x+"</span>";
+                    return "<strong>x value: </strong><span style='color:"+hoverColor+"'>"+d.x+"</span>";
                 })
 
             svg.call(tip);
