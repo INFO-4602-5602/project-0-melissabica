@@ -1,11 +1,13 @@
 <html>
 <head>
-<title>Project 0</title>
+<title>Project 0: Melissa Bica</title>
 <link rel="stylesheet" type="text/css" href="project0.css"></link>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!--Put your D3 import statement between these two lines-->
     <script src="https://d3js.org/d3.v3.min.js"></script>
 <!--Put your D3 import statement between these two lines-->
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
 </head>
 
 <body>
@@ -159,20 +161,31 @@
 
             bar.enter().append('svg:rect'); // Create new elements if needed
 
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                    return "<strong>x value:</strong><span style='color:"+hoverColor+"'>"+d.x+"</span>";
+                })
+
+            svg.call(tip);
+
             // Update our selection
             bar
                 .attr('class', 'rect')                                 // Give it a class
                 .attr('height', function(d) { return h-yScale(d.x)-yOffset-margin; })   // y-coordinate
                 .attr('x', function(d){ return xScale(d.idx) })
                 .attr('y', function(d){ return yScale(d.x)})
-            bar.append('svg:title') // tooltip
-                .text(function(d) { return "(x="+d.x+", y="+d.y+")"});
+                .append('svg:title') // tooltip
+                .text(function(d) { return "(x val="+d.x+")"});            
 
             bar.on('mouseover', function(d){
-                this.style = "fill:"+hoverColor
-            });
+                tip.show(d);
+                this.style = "fill:"+hoverColor;
+            })
             bar.on('mouseout', function(d){
-                this.style = "fill:"+origColor
+                tip.hide(d);
+                this.style = "fill:"+origColor;
             });
 
             changeBarData = function(file){
@@ -278,6 +291,15 @@
 
             point.enter().append('svg:circle'); // Create new elements if needed
 
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                    return "<strong>x = </strong><span style='color:"+hoverColor+"'>"+d.x+"</span></br><strong>y = </strong><span style='color:"+hoverColor+"'>"+d.y+"</span>";
+                })
+
+            svg.call(tip);            
+
             // Update our selection
             point
                 .attr('class', 'point')                                 // Give it a class
@@ -296,9 +318,11 @@
                 document.getElementById("scatterLabel").innerHTML = "x="+d.x+", y="+d.y;
             });
             point.on('mouseover', function(d){
+                tip.show(d);
                 this.style = "fill:"+hoverColor
             });
             point.on('mouseout', function(d){
+                tip.hide(d);
                 this.style = "fill:"+origColor
             });
 
