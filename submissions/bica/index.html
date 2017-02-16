@@ -172,13 +172,14 @@
 
             // Update our selection
             bar
-                .attr('class', 'rect')                                 // Give it a class
+                .attr('class', 'rect') // Give it a class
                 .attr('height', function(d) { return h-yScale(d.x)-yOffset-margin; })   // y-coordinate
                 .attr('x', function(d){ return xScale(d.idx) })
                 .attr('y', function(d){ return yScale(d.x)})
                 .append('svg:title') // tooltip
                 .text(function(d) { return "(x val="+d.x+")"});            
 
+            // Prettier tooltip
             bar.on('mouseover', function(d){
                 tip.show(d);
                 this.style = "fill:"+hoverColor;
@@ -317,6 +318,8 @@
             point.on('click', function(d){
                 document.getElementById("scatterLabel").innerHTML = "x="+d.x+", y="+d.y;
             });
+
+            // Prettier tooltip
             point.on('mouseover', function(d){
                 tip.show(d);
                 this.style = "fill:"+hoverColor
@@ -360,7 +363,6 @@
             };
 
         });
-
 
         
         // Put your part five code here ***********************
