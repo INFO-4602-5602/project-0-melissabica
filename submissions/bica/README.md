@@ -4,7 +4,8 @@ Collaborators: Jennings Anderson
 
 ### Bells and Whistles
 * **Tooltips:** All the graphs have tooltips that provide the x and y coordinates for the selected mark (bar or point). I also added a more visually appealing D3 tooltip to the large bar chart and scatterplot.
-* **Styling:** I chose a jewel tone color scheme, and added a mouseover color to all the marks (bars and points). (The click interaction, Part 4, is also implemented on all the scatterplots.)
+* **Styling:** I chose a jewel tone color scheme as shown below (http://www.color-hex.com/color-palette/19155), and added a mouseover color to all the marks (bars and points). (The click interaction, Part 4, is also implemented on all the scatterplots.) ![color_scheme](./color_scheme.png")
+
 * **Best Fit Lines:** I added a best fit line to each of the small scatterplots in Part 5.
 * **Transitions:** I added a button that allows the user to choose which of the four Anscombe's datasets to map to both the bar chart and the single scatterplot. There is a very quick D3 transition.
 * **Replication:** I replicated the bar chart and the scatterplot for Anscombe's I dataset in Google Sheets. I imported the CSVs, and also added a column for the index to be able to have labels along the x-axis of the bar chart. I could only put all labels along the x-axis rather than having only even values labeled as in the D3 implementation. There was only a limited number of color options, so I could not specify the exact hex shade of purple that I used in the D3 implementation. Oddly, I could not get the left axis to appear in the Sheets implementation. Overall, building these visualizations in Sheets was much simpler, but does not allow for as much customization in terms of interaction.
