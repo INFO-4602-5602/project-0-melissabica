@@ -4,7 +4,7 @@ Collaborators: Jennings Anderson
 
 ### Bells and Whistles
 * **Tooltips:** All the graphs have tooltips that provide the x and y coordinates for the selected mark (bar or point). I also added a more visually appealing D3 tooltip to the large bar chart and scatterplot.
-* **Styling:** I chose a jewel tone color scheme as shown below (http://www.color-hex.com/color-palette/19155), and added a mouseover color to all the marks (bars and points). (The click interaction, Part 4, is also implemented on all the scatterplots.) ![color_scheme](./color_scheme.png")
+* **Styling:** I chose a jewel tone color scheme as shown below (http://www.color-hex.com/color-palette/19155), and added a mouseover color to all the marks (bars and points). (The click interaction, Part 4, is also implemented on all the scatterplots.) ![color_scheme](./color_scheme.png)
 
 * **Best Fit Lines:** I added a best fit line to each of the small scatterplots in Part 5.
 * **Transitions:** I added a button that allows the user to choose which of the four Anscombe's datasets to map to both the bar chart and the single scatterplot. There is a very quick D3 transition.
